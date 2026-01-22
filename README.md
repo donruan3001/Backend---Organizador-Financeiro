@@ -752,35 +752,6 @@ Contribuições são bem-vindas! Por favor, siga estas etapas:
 
 ---
 
-## 👨‍💻 Autor
-
-**Seu Nome**
-- GitHub: [@seu-usuario](https://github.com/seu-usuario)
-- LinkedIn: [Seu Nome](https://linkedin.com/in/seu-perfil)
-
----
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
----
-
-## 📞 Suporte
-
-Para suporte, envie um email para: suporte@organizadorfinanceiro.com
-
-Ou abra uma [issue no GitHub](https://github.com/seu-usuario/Backend---Organizador-Financeiro/issues).
-
----
-
-## 🙏 Agradecimentos
-
-- Spring Framework Team
-- MySQL Community
-- Todos os contribuidores do projeto
-
----
 
 <div align="center">
 
