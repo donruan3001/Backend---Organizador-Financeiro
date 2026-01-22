@@ -4,13 +4,13 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
 
-import com.auth0.jwt.exceptions.JWTCreationException;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
+
 import finance.domain.user.User;
 
 @Service
@@ -28,8 +28,8 @@ try {
 
     return JWT.create()
         .withIssuer("api auth")          // Identifica quem gerou o token
-        .withSubject(user.getUsername())
-        .withClaim("userId",user.getId())// O "dono" do token (usado no .getSubject())
+        .withSubject(user.getId().toString())   // Identifica o assunto do token
+        .withClaim("username",user.getUsername())// O "dono" do token (usado no .getSubject())
         .withExpiresAt(dataExpiracao())        // Expiração do token
         .sign(algorithm);                      // Assina o token com o algoritmo
 } catch (JWTCreationException exception){

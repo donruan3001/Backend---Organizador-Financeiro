@@ -22,13 +22,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private RoleUser role;
 
-
-
-    // 🔹 Construtor vazio (obrigatório para o JPA)
     public User() {
     }
 
-    // 🔹 Construtor completo
     public User(Long id, String name, String username, String password, RoleUser role) {
         this.id = id;
         this.name = name;
@@ -37,15 +33,12 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    // 🔹 Construtor de registro (padrão: USER)
     public User(String name, String email, String password) {
         this.name = name;
         this.username = email;
         this.password = password;
         this.role = RoleUser.USER;
     }
-
-    // ========== GETTERS E SETTERS ==========
 
     public Long getId() {
         return id;
@@ -95,9 +88,8 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role == RoleUser.ADMIN) {
             return List.of(
-                new SimpleGrantedAuthority("ROLE_ADMIN"),
-                new SimpleGrantedAuthority("ROLE_USER")
-            );
+                    new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_USER"));
         } else {
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
         }

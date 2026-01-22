@@ -31,13 +31,11 @@ public class Transaction {
     private LocalDateTime created;
     private LocalDateTime updated;
 
-    // 🔹 Construtor vazio (necessário para o JPA)
     public Transaction() {
     }
 
-    // 🔹 Construtor completo
     public Transaction(Long id, Account account, CategoryTransactions category, String name,
-                       TypeTransaction type, BigDecimal amount, LocalDateTime created, LocalDateTime updated) {
+            TypeTransaction type, BigDecimal amount, LocalDateTime created, LocalDateTime updated) {
         this.id = id;
         this.account = account;
         this.category = category;
@@ -48,9 +46,8 @@ public class Transaction {
         this.updated = updated;
     }
 
-    // 🔹 Construtor usado na criação
     public Transaction(Account account, CategoryTransactions category, String name,
-                       TypeTransaction type, BigDecimal amount) {
+            TypeTransaction type, BigDecimal amount) {
         this.account = account;
         this.category = category;
         this.name = name;
@@ -59,8 +56,6 @@ public class Transaction {
         this.created = LocalDateTime.now();
         this.updated = LocalDateTime.now();
     }
-
-    // ========== GETTERS E SETTERS ==========
 
     public Long getId() {
         return id;

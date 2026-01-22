@@ -1,5 +1,5 @@
-package finance.controlers;
-import org.springframework.beans.factory.annotation.Autowired;
+package finance.controllers;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -13,22 +13,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import finance.dto.accounts.AccountResponseDTO;
-import finance.dto.accounts.AccountUpdateDTO;
+import finance.domain.dto.accounts.AccountResponseDTO;
+import finance.domain.dto.accounts.AccountUpdateDTO;
 import finance.services.ServiceAdmin;
-
 
 @RestController
 @RequestMapping("/admin")
 @PreAuthorize("hasRole('ADMIN')")
 public class ControllerAdmin {
 
-    @Autowired
-    private ServiceAdmin serviceAdmin;
+    private final ServiceAdmin serviceAdmin;
 
-        @PatchMapping("/{id}")
+    public ControllerAdmin(ServiceAdmin serviceAdmin) {
+        this.serviceAdmin = serviceAdmin;
+    }
+
+    @PatchMapping("/{id}")
     public ResponseEntity<AccountResponseDTO> patchAccount(@PathVariable Long id, @RequestBody AccountUpdateDTO data) {
-        AccountResponseDTO updatedAccount =serviceAdmin.patchAccount(id, data);
+        AccountResponseDTO updatedAccount = serviceAdmin.patchAccount(id, data);
         return ResponseEntity.ok(updatedAccount);
     }
 
@@ -37,11 +39,13 @@ public class ControllerAdmin {
         serviceAdmin.deleteAccount(id);
         return ResponseEntity.noContent().build();
     }
+
     @GetMapping("/accounts")
-    public ResponseEntity<Page<AccountResponseDTO>> getAllAccounts(@PageableDefault(size = 10,page = 0)Pageable pageable) {
-        
+    public ResponseEntity<Page<AccountResponseDTO>> getAllAccounts(
+            @PageableDefault(size = 10, page = 0) Pageable pageable) {
+
         Page<AccountResponseDTO> accounts = serviceAdmin.getAllAccounts(pageable);
         return ResponseEntity.ok(accounts);
     }
-    
+
 }

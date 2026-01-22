@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
 @Entity
 @Table(name = "accounts")
 public class Account {
@@ -27,7 +28,6 @@ public class Account {
     @JoinColumn(name = "user_id")
     private User user;
 
-
     private String name;
 
     @Enumerated(EnumType.STRING)
@@ -38,10 +38,9 @@ public class Account {
     @Column(name = "created", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    // 🔹 Construtor vazio (necessário para o JPA)
-    public Account() {}
+    public Account() {
+    }
 
-    // 🔹 Construtor completo
     public Account(Long id, User user, String name, AccountType type, BigDecimal balance, LocalDateTime createdAt) {
         this.id = id;
         this.user = user;
@@ -51,9 +50,15 @@ public class Account {
         this.createdAt = createdAt;
     }
 
-    // 🔹 Construtor usado no create
     public Account(User user, String name, AccountType type, BigDecimal balance) {
         this.user = user;
+        this.name = name;
+        this.type = type;
+        this.balance = balance;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public Account(String name, AccountType type, BigDecimal balance) {
         this.name = name;
         this.type = type;
         this.balance = balance;
@@ -75,8 +80,6 @@ public class Account {
     public void setUser(User user) {
         this.user = user;
     }
-
-
 
     public String getName() {
         return name;

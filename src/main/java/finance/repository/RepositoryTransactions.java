@@ -4,8 +4,13 @@ import finance.domain.transactions.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface RepositoryTransactions extends JpaRepository<Transaction,Long> {
+import java.util.List;
 
+@Repository
+public interface RepositoryTransactions extends JpaRepository<Transaction, Long> {
+
+    List<Transaction> findByAccountId(Long accountId);
+
+    List<Transaction> findByAccountIdOrderByCreatedDesc(Long accountId);
 
 }

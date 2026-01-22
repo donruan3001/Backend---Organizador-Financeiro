@@ -1,71 +1,74 @@
 package finance.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import finance.domain.acounts.Account;
-import finance.dto.accounts.AccountResponseDTO;
-import finance.dto.accounts.AccountUpdateDTO;
+import finance.domain.dto.accounts.AccountResponseDTO;
+import finance.domain.dto.accounts.AccountUpdateDTO;
+import finance.exceptions.AccountNotFoundException;
+import finance.exceptions.BusinessException;
+import finance.exceptions.ResourceNotFoundException;
 import finance.repository.RepositoryAccount;
-import finance.repository.RepositoryUser;
 import jakarta.transaction.Transactional;
+
+import java.math.BigDecimal;
 
 @Service
 public class ServiceAdmin {
-    @Autowired
-    private RepositoryAccount repositoryAccount;
-    @Autowired
-    private RepositoryUser repositoryUser;
 
-        public Page<AccountResponseDTO> getAllAccounts(Pageable pageable) {
-        Page<Account> accounts = repositoryAccount.findAll(pageable);
-        
-        var dto= accounts.map(account -> new AccountResponseDTO(
+    private final RepositoryAccount accountRepository;
+
+    public ServiceAdmin(RepositoryAccount accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+
+    // lista todas as contas
+    public Page<AccountResponseDTO> getAllAccounts(Pageable pageable) {
+
+        Page<Account> accounts = accountRepository.findAll(pageable);
+
+        if (accounts.isEmpty()) {
+            throw new ResourceNotFoundException("Nenhuma conta encontrada");
+        }
+        return accounts.map(AccountResponseDTO::toDTO);
+    }
+
+    // atualiza contas
+    @Transactional
+    public AccountResponseDTO patchAccount(Long id, AccountUpdateDTO data) {
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new AccountNotFoundException(id));
+
+        if (data.name() != null)
+            account.setName(data.name().trim());
+        if (data.type() != null)
+            account.setType(data.type());
+        if (data.balance() != null) {
+            if (data.balance().compareTo(BigDecimal.ZERO) < 0) {
+                throw new BusinessException("Saldo não pode ser negativo");
+            }
+            account.setBalance(data.balance());
+        }
+
+        account = accountRepository.save(account);
+        return new AccountResponseDTO(
                 account.getId(),
                 account.getUser().getId(),
                 account.getName(),
                 account.getType(),
                 account.getBalance(),
-                account.getCreatedAt()));
-        if(accounts.isEmpty()) {
-            throw new IllegalArgumentException("Nenhuma conta encontrada");
-        }
-        return dto;
+                account.getCreatedAt());
     }
 
-    @Transactional
-    public AccountResponseDTO patchAccount(Long id, AccountUpdateDTO data) {
-            Account account = repositoryAccount.findById(id)
-                    .orElseThrow(() -> new IllegalArgumentException("Conta com ID " + id + " não encontrada"));
-
-            // Atualiza apenas os campos fornecidos, preservando os existentes
-            if (data.name() != null) account.setName(data.name().trim());
-            if (data.type() != null) account.setType(data.type());
-            if (data.balance() != null) account.setBalance(data.balance());
-
-            account = repositoryAccount.save(account);
-            return new AccountResponseDTO(
-                    account.getId(),
-                    account.getUser().getId(),
-                    account.getName(),
-                    account.getType(),
-                    account.getBalance(),
-                    account.getCreatedAt()
-            );
-        }
+    // deleta contas
     @Transactional
     public void deleteAccount(Long id) {
-            if (!repositoryAccount.existsById(id)) {
-                throw new IllegalArgumentException("Conta com ID " + id + " não encontrada");
-            }
-            repositoryAccount.deleteById(id);
+        if (!accountRepository.existsById(id)) {
+            throw new AccountNotFoundException(id);
         }
-
-    
+        accountRepository.deleteById(id);
     }
 
-
-
-
+}
