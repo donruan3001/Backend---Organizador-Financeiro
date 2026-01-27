@@ -73,6 +73,34 @@ O **Organizador Financeiro** é uma API RESTful robusta que permite aos usuário
 
 ---
 
+## 📦 Instalação e Configuração
+
+### Pré-requisitos
+
+- **Docker** 
+- **Git**
+
+### 1. Clonar o Repositório
+
+```bash
+git clone https://github.com/seu-usuario/Backend---Organizador-Financeiro.git
+cd Backend---Organizador-Financeiro
+```
+
+
+### 2. Subir o container por docker compose 
+```
+docker compose up --build 
+ou 
+docker-compose up --build
+```
+
+
+A aplicação estará disponível em: `http://localhost:8080`
+
+
+
+
 ## ⚙️ Funcionalidades
 
 ### 🔐 Autenticação e Autorização
@@ -368,75 +396,6 @@ DELETE /admin/{id}
 ```
 
 ---
-
-## 📦 Instalação e Configuração
-
-### Pré-requisitos
-
-- **Java 17** ou superior
-- **Maven 3.8+**
-- **MySQL 8.0+**
-- **Docker** (opcional, para containerização)
-
-### 1. Clonar o Repositório
-
-```bash
-git clone https://github.com/seu-usuario/Backend---Organizador-Financeiro.git
-cd Backend---Organizador-Financeiro
-```
-
-### 2. Configurar Banco de Dados
-
-Crie um banco de dados no MySQL:
-
-```sql
-CREATE DATABASE finance_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
-
-### 3. Configurar Variáveis de Ambiente
-
-Edite `src/main/resources/application.properties`:
-
-```properties
-# Banco de Dados
-spring.datasource.url=jdbc:mysql://localhost:3306/finance_db
-spring.datasource.username=seu_usuario
-spring.datasource.password=sua_senha
-
-# JWT Secret (IMPORTANTE: Altere em produção!)
-api.security.token.secret=my-secret-key-change-in-production
-
-# Configurações de desenvolvimento
-spring.jpa.show-sql=true
-spring.jpa.hibernate.ddl-auto=update
-```
-
-### 4. Executar Migrations (Flyway)
-
-As migrations são executadas automaticamente na inicialização:
-
-```bash
-mvn flyway:migrate
-```
-
-### 5. Compilar e Executar
-
-```bash
-# Compilar
-mvn clean install
-
-# Executar
-mvn spring-boot:run
-```
-
-A aplicação estará disponível em: `http://localhost:8080`
-
-### 6. Acessar Documentação Swagger
-
-Abra no navegador:
-```
-http://localhost:8080/swagger-ui.html
-```
 
 ---
 
