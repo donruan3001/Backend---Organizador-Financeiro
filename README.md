@@ -96,10 +96,3 @@ Aplicação disponível em:
 **Projeto focado em boas práticas de backend, segurança e regras de negócio reais.**
 ⭐ Se gostou, deixe uma estrela!
 
----
-
-Se quiser, posso:
-
-* Criar uma **versão ultra curta** (para README minimalista)
-* Adaptar o texto para **portfólio ou LinkedIn**
-* Deixar o README mais **profissional para recrutadores**
