@@ -36,3 +36,4 @@ build/
 .env
 .env.local
 .env.*.local
+CHANGES_NEEDED.md
