@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,10 @@ import finance.domain.user.User;
 @Service
 public class JWTService {
     
+@Autowired
 @Value("${JWT_SECRET}")
 private String secretKey;
+
 
 public String createSecretKey(User user){
 

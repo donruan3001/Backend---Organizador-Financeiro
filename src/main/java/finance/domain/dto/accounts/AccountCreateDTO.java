@@ -2,6 +2,7 @@ package finance.domain.dto.accounts;
 
 import java.math.BigDecimal;
 
+import finance.domain.acounts.Account;
 import finance.domain.acounts.AccountType;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -15,7 +16,8 @@ public record AccountCreateDTO(
 
                 @NotNull(message = "account.balance.required") @DecimalMin(value = "0.00", inclusive = true, message = "account.balance.negative") BigDecimal balance
 
-) {
+) {public AccountCreateDTO(Account account){
+    this(account.getName(),account.getType(),account.getBalance());
 
-    
+}    
 }

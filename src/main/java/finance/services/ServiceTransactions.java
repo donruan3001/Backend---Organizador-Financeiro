@@ -1,7 +1,5 @@
 package finance.services;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import finance.config.AuthenticatedUser;
@@ -36,15 +34,15 @@ public class ServiceTransactions {
     @Transactional
     public TransactionResponseDTO createTransaction(TransactionCreateDTO data) {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
+      Long userAuthLong = AuthenticatedUser.getAuthenticatedUserId();
 
         Account account = accountRepository.findById(data.accountId())
                 .orElseThrow(() -> new AccountNotFoundException(data.accountId()));
 
-        if (!account.getUser().getUsername().equals(username)) {
-            throw new UnauthorizedAccessException("Conta", data.accountId());
+        if(!account.getUser().getId().equals(userAuthLong)){
+            throw new RuntimeException("Você não tem permissão para essa conta");
         }
+
 
         if (data.type().equals(TypeTransaction.EXPENSE)) {
             // Valida saldo suficiente antes de debitar
