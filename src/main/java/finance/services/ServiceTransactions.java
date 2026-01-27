@@ -1,7 +1,8 @@
 package finance.services;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import finance.config.AuthenticatedUser;
@@ -13,13 +14,11 @@ import finance.domain.transactions.Transaction;
 import finance.domain.transactions.TypeTransaction;
 import finance.exceptions.AccountNotFoundException;
 import finance.exceptions.InsufficientBalanceException;
+import finance.exceptions.ResourceNotFoundException;
 import finance.exceptions.UnauthorizedAccessException;
 import finance.repository.RepositoryAccount;
 import finance.repository.RepositoryTransactions;
 import jakarta.transaction.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ServiceTransactions {
